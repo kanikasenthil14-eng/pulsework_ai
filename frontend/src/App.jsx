@@ -1,84 +1,54 @@
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
-import FurnitureCard from './components/FurnitureCard'
 import Footer from './components/Footer'
-import SearchFurniture from './components/SearchFurniture'
-import { Button } from './components/ui/button'
 
-const App = () => {
+import Dashboard from './pages/Dashboard'
+import Listings from './pages/Listings'
+import AddFurniture from './pages/AddFurniture'
+import Login from './pages/Login'
+import Search from './pages/Search'
+import Enquiries from './pages/Enquiries'
 
-  const [Name, SetName] = useState("");
+function App() {
+    return (
+        <BrowserRouter>
 
-  useEffect(() => {
-    console.log("Search name changed:", Name)
-  }, [Name]);
+            <Navbar />
 
-  return (
-    <div>
-      <Navbar />
+            <div className="flex flex-col md:flex-row">
 
-      <div className="flex flex-col md:flex-row">
-        <Sidebar />
+                <Sidebar />
 
-        <div className="p-5 flex-1">
+                <div className="flex-1 p-5">
 
-          <h1 className="text-2xl font-bold mb-5">
-            Furniture Dashboard
-          </h1>
+                    <Routes>
 
-          <Button className="mb-4">
-            Add Furniture
-          </Button>
+                        <Route path="/" element={<Dashboard />} />
 
-          <SearchFurniture Name={Name} SetName={SetName} />
+                        <Route path="/listings" element={<Listings />} />
 
-          <div className="flex flex-wrap">
+                        <Route path="/add-furniture" element={<AddFurniture />} />
 
-            {(Name === "" || "Wooden Chair".toLowerCase().includes(Name.toLowerCase())) &&
-              <FurnitureCard
-                Name="Wooden Chair"
-                condition="Good"
-                material="Wood"
-                price="1500"
-              />
-            }
+                        <Route path="/login" element={<Login />} />
 
-            {(Name === "" || "Dining Table".toLowerCase().includes(Name.toLowerCase())) &&
-              <FurnitureCard
-                Name="Dining Table"
-                condition="Excellent"
-                material="Solid Wood"
-                price="5000"
-              />
-            }
+                        <Route path="/search" element={<Search />} />
 
-            {(Name === "" || "Sofa Set".toLowerCase().includes(Name.toLowerCase())) &&
-              <FurnitureCard
-                Name="Sofa Set"
-                condition="Good"
-                material="Fabric"
-                price="8000"
-              />
-            }
+                        <Route path="/enquiries" element={<Enquiries />} />
 
-          </div>
+                    </Routes>
 
-          {!["Wooden Chair", "Dining Table", "Sofa Set"].some(
-            item => item.toLowerCase().includes(Name.toLowerCase())
-          ) && (
-            <p className="text-red-500 font-bold p-4">
-              No furniture found!
-            </p>
-          )}
+                </div>
 
-        </div>
-      </div>
+            </div>
 
-      <Footer />
-    </div>
-  )
+            <Footer />
+
+        </BrowserRouter>
+    )
 }
 
 export default App
